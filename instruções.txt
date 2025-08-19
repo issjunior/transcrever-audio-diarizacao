@@ -1,0 +1,2 @@
+Para o pyannote.audio você precisa de um Hugging Face token (gratuito).
+Crie em huggingface.co/settings/tokens e coloque no código.

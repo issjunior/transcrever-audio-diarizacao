@@ -1,4 +1,4 @@
-##🔎 Como funciona:
+🔎## Como funciona:
 
 - Whisper → Transcreve o áudio e gera segmentos com timestamps.
 - Pyannote → Detecta os locutores e seus intervalos de fala.

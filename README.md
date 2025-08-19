@@ -28,6 +28,12 @@ Exporta em um Word (.docx) organizado em colunas:
 ```bash
 pip install openai-whisper pyannote.audio python-docx
 
-Como usar
+---
+
+Token do Hugging Face (gratuito): necessário para usar o modelo de diarização pyannote/speaker-diarization.
+Crie seu token em: https://huggingface.co/settings/tokens
+
+## Como usar
 
 Coloque o áudio que deseja transcrever na pasta do projeto (ex: exemplo.mp3).
+

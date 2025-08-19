@@ -1,2 +1,5 @@
-
+# Arquivos para não serem versionados 
+__pycache__
+*.psy
+*.pyc
 transcrever-audio-diarizacao.code-workspace

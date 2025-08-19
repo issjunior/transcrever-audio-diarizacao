@@ -17,7 +17,7 @@ resultado = modelo.transcribe(audio_path)
 print(">> Rodando diarização...")
 
 # Use seu token do HuggingFace
-HUGGINGFACE_TOKEN = "seu_token_aqui"
+HUGGINGFACE_TOKEN = "seu_token_aqui" #Coloque o TOKEN aqui
 
 pipeline = Pipeline.from_pretrained(
     "pyannote/speaker-diarization",

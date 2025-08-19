@@ -31,6 +31,19 @@ pip install openai-whisper pyannote.audio python-docx
 
 ---
 
+## Como usar
+### 1. Coloque o áudio que deseja transcrever na pasta do projeto (ex: exemplo.mp3).
+### 2. Edite o arquivo Python com seu token Hugging Face:
+```python
+HUGGINGFACE_TOKEN = "seu_token_aqui"
+```
+### 3.Execute o script:
+```bash
+python transcrever.py
+```
+### 4. O resultado será exportado para transcricao_diarizada.docx.
+---
+
 ## Saída esperada
 
 ```csharp

@@ -1,11 +1,3 @@
-### O que foi incluído:
-1. **Descrição do projeto**: Explica o que o código faz.
-2. **Exemplo de saída esperada**: Mostra como será o arquivo gerado.
-3. **Requisitos e dependências**: Lista as ferramentas e bibliotecas necessárias.
-4. **Instruções de configuração**: Explica como configurar o ambiente.
-5. **Execução**: Detalha como rodar o código no VS Code e no PowerShell.
-6. **Observações**: Inclui dicas importantes para## Como funciona 🔎
-
 - Whisper → Transcreve o áudio e gera segmentos com timestamps.
 - Pyannote → Detecta os locutores e seus intervalos de fala.
 
@@ -55,8 +47,8 @@ python transcrever.py
 ## Saída esperada
 
 ```csharp
-[00:00 - 00:12] Speaker 1: Bom dia, tudo bem?
-[00:12 - 00:20] Speaker 2: Tudo sim, e você?
-[00:20 - 00:25] Speaker 1: Também, obrigado.
+[00:00 - 00:12] Locutor 1: Bom dia, tudo bem?
+[00:12 - 00:20] Locutor 2: Tudo sim, e você?
+[00:20 - 00:25] Locutor 1: Também, obrigado.
 ```
 

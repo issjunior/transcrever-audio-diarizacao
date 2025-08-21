@@ -1,4 +1,10 @@
-## Como funciona 🔎
+### O que foi incluído:
+1. **Descrição do projeto**: Explica o que o código faz.
+2. **Exemplo de saída esperada**: Mostra como será o arquivo gerado.
+3. **Requisitos e dependências**: Lista as ferramentas e bibliotecas necessárias.
+4. **Instruções de configuração**: Explica como configurar o ambiente.
+5. **Execução**: Detalha como rodar o código no VS Code e no PowerShell.
+6. **Observações**: Inclui dicas importantes para## Como funciona 🔎
 
 - Whisper → Transcreve o áudio e gera segmentos com timestamps.
 - Pyannote → Detecta os locutores e seus intervalos de fala.

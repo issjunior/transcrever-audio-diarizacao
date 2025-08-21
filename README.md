@@ -38,7 +38,7 @@ O projeto utiliza a biblioteca **python-dotenv** para carregar variáveis de amb
 ```python
 HUGGINGFACE_TOKEN=seu_token_aqui
 ```
-#### Substitua seu_token_aqui pelo seu token de autenticação do Hugging Face. Esse token é necessário para acessar o pipeline de diarização de locutores.
+#### Substitua "seu_token_aqui" pelo seu token de autenticação do Hugging Face. Esse token é necessário para acessar o pipeline de diarização de locutores.
 
 ### 3.Execute o script:
 ```bash

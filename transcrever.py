@@ -23,7 +23,7 @@ if not HUGGINGFACE_TOKEN:
 # 2. Transcrição com Whisper
 # -------------------------------
 modelo = whisper.load_model("large")  # tiny, base, small, medium, large
-audio_path = "exemplo.mp3"
+audio_path = "exemplo.mp4"
 
 print(">> Rodando Whisper...")
 resultado = modelo.transcribe(audio_path)
@@ -41,9 +41,13 @@ pipeline = Pipeline.from_pretrained(
 diarization = pipeline(audio_path)
 
 # -------------------------------
-# 4. Mesclar transcrição + locutores
+# 4. Mesclar transcrição + locutores numerados
 # -------------------------------
 falas = []
+
+# Dicionário para mapear locutores originais para "Locutor 1", "Locutor 2", ...
+mapa_locutores = {}
+contador_locutor = 1
 
 for segmento in resultado["segments"]:
     start = segmento["start"]
@@ -54,16 +58,23 @@ for segmento in resultado["segments"]:
     for turno in diarization.itertracks(yield_label=True):
         # Desempacotamento seguro independente da versão
         seg_dia = turno[0]        # primeiro elemento é sempre o segmento
-        locutor = turno[-1]       # último elemento é o label/locutor
+        locutor_original = turno[-1]       # último elemento é o label/locutor
         s = seg_dia.start
         e = seg_dia.end
         if s <= start <= e:
-            speaker = locutor
+            speaker = locutor_original
             break
+
+    # Mapear locutor para "Locutor X"
+    if speaker not in mapa_locutores and speaker != "Desconhecido":
+        mapa_locutores[speaker] = f"Locutor {contador_locutor}"
+        contador_locutor += 1
+
+    nome_final = mapa_locutores.get(speaker, speaker)
 
     falas.append({
         "tempo": f"{start:.2f} - {end:.2f}",
-        "locutor": speaker,
+        "locutor": nome_final,
         "texto": texto
     })
 
@@ -72,7 +83,7 @@ for segmento in resultado["segments"]:
 # -------------------------------
 print(">> Exportando para Word...")
 doc = Document()
-doc.add_heading("Transcrição com Diarização", level=1)
+doc.add_heading("Tabela 1 - transcrição de áudio ", level=1)
 
 tabela = doc.add_table(rows=1, cols=3)
 hdr_cells = tabela.rows[0].cells

@@ -1,7 +1,4 @@
-- Whisper → Transcreve o áudio e gera segmentos com timestamps.
-- Pyannote → Detecta os locutores e seus intervalos de fala.
-
-O script cruza os intervalos de tempo e atribui cada trecho ao locutor correto.
+# O código cruza os intervalos de tempo e atribui cada trecho ao locutor correto.
 Exporta em um Word (.docx) organizado em colunas:
 
 - Tempo

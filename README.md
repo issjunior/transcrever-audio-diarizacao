@@ -37,6 +37,8 @@ pip install openai-whisper pyannote.audio python-docx
 ```python
 HUGGINGFACE_TOKEN = "seu_token_aqui"
 ```
+#### O pipeline pyannote/speaker-diarization precisa de acesso autenticado ao Hugging Face.
+
 ### 3.Execute o script:
 ```bash
 python transcrever.py

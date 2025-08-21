@@ -63,7 +63,7 @@ print(">> Mesclando transcrição e locutores...")
 for segmento in resultado["segments"]:
     start = segmento["start"]
     end = segmento["end"]
-    texto = segmento["text"].strip()
+    texto = f'"{segmento["text"].strip()}"'  # Adiciona aspas ao texto da transcrição
 
     speaker = "Desconhecido"
     for turno in diarization.itertracks(yield_label=True):

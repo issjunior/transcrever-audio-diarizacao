@@ -33,9 +33,8 @@ HUGGINGFACE_TOKEN = "seu_token_aqui"
 ```
 #### O pipeline pyannote/speaker-diarization precisa de acesso autenticado ao Hugging Face.
 
-### Configuração do Projeto
-Configurar o arquivo .env
-O projeto utiliza a biblioteca python-dotenv para carregar variáveis de ambiente. Crie um arquivo .env na raiz do projeto com o seguinte conteúdo:
+### Configuração do TOKEN
+O projeto utiliza a biblioteca **python-dotenv** para carregar variáveis de ambiente. Crie um arquivo .env na raiz do projeto com o seguinte conteúdo:
 ```python
 HUGGINGFACE_TOKEN=seu_token_aqui
 ```

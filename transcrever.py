@@ -1,23 +1,37 @@
+import os
+import warnings
+from dotenv import load_dotenv
 import whisper
 from pyannote.audio import Pipeline
 from docx import Document
 
 # -------------------------------
-# 1. Transcrição com Whisper
+# 0. Supressão de warnings
 # -------------------------------
-modelo = whisper.load_model("small")  # pode ser tiny, base, small, medium, large
+warnings.filterwarnings("ignore")  # ignora warnings de torchaudio, PyTorch, etc.
+
+# -------------------------------
+# 1. Carregar variáveis de ambiente
+# -------------------------------
+load_dotenv()  # Carrega as variáveis do arquivo .env
+HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
+
+if not HUGGINGFACE_TOKEN:
+    raise ValueError("❌ Token do HuggingFace não encontrado. Defina no arquivo .env")
+
+# -------------------------------
+# 2. Transcrição com Whisper
+# -------------------------------
+modelo = whisper.load_model("large")  # tiny, base, small, medium, large
 audio_path = "exemplo.mp3"
 
 print(">> Rodando Whisper...")
 resultado = modelo.transcribe(audio_path)
 
 # -------------------------------
-# 2. Diarização com Pyannote
+# 3. Diarização com Pyannote
 # -------------------------------
 print(">> Rodando diarização...")
-
-# Use seu token do HuggingFace
-HUGGINGFACE_TOKEN = "seu_token_aqui" #Coloque o TOKEN aqui
 
 pipeline = Pipeline.from_pretrained(
     "pyannote/speaker-diarization",
@@ -27,7 +41,7 @@ pipeline = Pipeline.from_pretrained(
 diarization = pipeline(audio_path)
 
 # -------------------------------
-# 3. Mesclar transcrição + locutores
+# 4. Mesclar transcrição + locutores
 # -------------------------------
 falas = []
 
@@ -36,10 +50,13 @@ for segmento in resultado["segments"]:
     end = segmento["end"]
     texto = segmento["text"].strip()
 
-    # Achar o locutor pelo tempo
     speaker = "Desconhecido"
     for turno in diarization.itertracks(yield_label=True):
-        (s, e), locutor = turno
+        # Desempacotamento seguro independente da versão
+        seg_dia = turno[0]        # primeiro elemento é sempre o segmento
+        locutor = turno[-1]       # último elemento é o label/locutor
+        s = seg_dia.start
+        e = seg_dia.end
         if s <= start <= e:
             speaker = locutor
             break
@@ -51,7 +68,7 @@ for segmento in resultado["segments"]:
     })
 
 # -------------------------------
-# 4. Exportar para Word
+# 5. Exportar para Word
 # -------------------------------
 print(">> Exportando para Word...")
 doc = Document()

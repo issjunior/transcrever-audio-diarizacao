@@ -5,3 +5,5 @@
 *.mp4
 *.docx
 transcrever-audio-diarizacao.code-workspace
+.env
+.venv

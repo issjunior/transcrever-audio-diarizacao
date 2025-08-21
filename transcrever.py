@@ -25,8 +25,8 @@ if not HUGGINGFACE_TOKEN:
 # -------------------------------
 # 2. Transcrição com Whisper
 # -------------------------------
-modelo = whisper.load_model("tiny")  # tiny, base, small, medium, large
-audio_path = "exemplo_pequeno.mp3"  # Pyannote/torchaudio aceita arquivos de áudio
+modelo = whisper.load_model("large")  # tiny, base, small, medium, large
+audio_path = "exemplo_pequeno.mp3"  # Pyannote/torchaudio somente aceita arquivos de áudio
 
 print(">> Rodando Whisper...")
 resultado = modelo.transcribe(audio_path)

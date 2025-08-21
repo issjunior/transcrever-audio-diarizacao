@@ -1,6 +1,7 @@
-# Arquivos para não serem versionados 
+# Arquivos excluidos do controle de versão
 *.psy
 *.pyc
 *.mp3
 *.mp4
+*.docx
 transcrever-audio-diarizacao.code-workspace

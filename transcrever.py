@@ -23,7 +23,7 @@ if not HUGGINGFACE_TOKEN:
 # 2. Transcrição com Whisper
 # -------------------------------
 modelo = whisper.load_model("large")  # tiny, base, small, medium, large
-audio_path = "exemplo.mp4"
+audio_path = "exemplo_grande.mp3" # Pyannote/torchaudio somente aceita arquivos de áudio, como .wav, .flac, .mp3.
 
 print(">> Rodando Whisper...")
 resultado = modelo.transcribe(audio_path)
@@ -39,6 +39,14 @@ pipeline = Pipeline.from_pretrained(
 )
 
 diarization = pipeline(audio_path)
+
+# -------------------------------
+# Função para formatar tempo em mm:ss
+# -------------------------------
+def formatar_tempo(segundos):
+    minutos = int(segundos // 60)
+    segundos_restantes = int(segundos % 60)
+    return f"{minutos:02d}:{segundos_restantes:02d}"
 
 # -------------------------------
 # 4. Mesclar transcrição + locutores numerados
@@ -73,7 +81,7 @@ for segmento in resultado["segments"]:
     nome_final = mapa_locutores.get(speaker, speaker)
 
     falas.append({
-        "tempo": f"{start:.2f} - {end:.2f}",
+        "tempo": f"{formatar_tempo(start)} - {formatar_tempo(end)}",
         "locutor": nome_final,
         "texto": texto
     })
@@ -83,7 +91,7 @@ for segmento in resultado["segments"]:
 # -------------------------------
 print(">> Exportando para Word...")
 doc = Document()
-doc.add_heading("Tabela 1 - transcrição de áudio ", level=1)
+doc.add_heading("Tabela 1 - transcrição de áudio", level=1)
 
 tabela = doc.add_table(rows=1, cols=3)
 hdr_cells = tabela.rows[0].cells

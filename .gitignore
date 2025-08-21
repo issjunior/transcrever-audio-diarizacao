@@ -1,9 +1,40 @@
-# Arquivos excluidos do controle de versão
-*.psy
+# Arquivos e pastas excluídos do controle de versão
+
+# Arquivos Python
 *.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Arquivos de áudio e vídeo
 *.mp3
 *.mp4
+*.wav
+*.ogg
+*.flac
+*.aac
+*.m4a
+*.wma
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Arquivos do Word
 *.docx
-transcrever-audio-diarizacao.code-workspace
+
+# Configurações do VS Code
+*.code-workspace
+
+# Arquivo de variáveis de ambiente
 .env
-.venv
+
+# Ambiente virtual
+.venv/
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db

@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 import whisper
 from pyannote.audio import Pipeline
 from docx import Document
+from tqdm import tqdm  # barra de progresso
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 
 # -------------------------------
 # 0. Supressão de warnings
@@ -22,8 +25,8 @@ if not HUGGINGFACE_TOKEN:
 # -------------------------------
 # 2. Transcrição com Whisper
 # -------------------------------
-modelo = whisper.load_model("large")  # tiny, base, small, medium, large
-audio_path = "exemplo_grande.mp3" # Pyannote/torchaudio somente aceita arquivos de áudio, como .wav, .flac, .mp3.
+modelo = whisper.load_model("tiny")  # tiny, base, small, medium, large
+audio_path = "exemplo_pequeno.mp3"  # Pyannote/torchaudio aceita arquivos de áudio
 
 print(">> Rodando Whisper...")
 resultado = modelo.transcribe(audio_path)
@@ -57,14 +60,14 @@ falas = []
 mapa_locutores = {}
 contador_locutor = 1
 
-for segmento in resultado["segments"]:
+print(">> Mesclando transcrição e locutores...")
+for segmento in tqdm(resultado["segments"], desc="Processando segmentos"):
     start = segmento["start"]
     end = segmento["end"]
     texto = segmento["text"].strip()
 
     speaker = "Desconhecido"
     for turno in diarization.itertracks(yield_label=True):
-        # Desempacotamento seguro independente da versão
         seg_dia = turno[0]        # primeiro elemento é sempre o segmento
         locutor_original = turno[-1]       # último elemento é o label/locutor
         s = seg_dia.start
@@ -86,6 +89,26 @@ for segmento in resultado["segments"]:
         "texto": texto
     })
 
+# Função corrigida para adicionar bordas à tabela
+def adicionar_bordas_tabela(tabela):
+    tbl = tabela._element
+    tbl_pr = tbl.find(qn('w:tblPr'))  # Tenta encontrar o elemento tblPr
+    if tbl_pr is None:
+        tbl_pr = OxmlElement('w:tblPr')  # Cria tblPr se não existir
+        tbl.insert(0, tbl_pr)
+
+    tbl_borders = OxmlElement('w:tblBorders')
+
+    for border_name in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
+        border = OxmlElement(f'w:{border_name}')
+        border.set(qn('w:val'), 'single')  # Tipo de borda: 'single' (linha simples)
+        border.set(qn('w:sz'), '4')       # Tamanho da borda
+        border.set(qn('w:space'), '0')    # Espaçamento
+        border.set(qn('w:color'), '000000')  # Cor: preto
+        tbl_borders.append(border)
+
+    tbl_pr.append(tbl_borders)
+
 # -------------------------------
 # 5. Exportar para Word
 # -------------------------------
@@ -104,6 +127,9 @@ for fala in falas:
     row_cells[0].text = fala["tempo"]
     row_cells[1].text = fala["locutor"]
     row_cells[2].text = fala["texto"]
+
+# Adicionar bordas à tabela
+adicionar_bordas_tabela(tabela)
 
 doc.save("transcricao_diarizada.docx")
 print("✅ Arquivo gerado: transcricao_diarizada.docx")

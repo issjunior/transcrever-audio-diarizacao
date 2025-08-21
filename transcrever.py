@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import whisper
 from pyannote.audio import Pipeline
 from docx import Document
-from tqdm import tqdm  # barra de progresso
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
@@ -61,7 +60,7 @@ mapa_locutores = {}
 contador_locutor = 1
 
 print(">> Mesclando transcrição e locutores...")
-for segmento in tqdm(resultado["segments"], desc="Processando segmentos"):
+for segmento in resultado["segments"]:
     start = segmento["start"]
     end = segmento["end"]
     texto = segmento["text"].strip()
